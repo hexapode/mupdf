@@ -773,7 +773,7 @@ do_extract(fz_context *ctx, fz_stext_device *dev, fz_text_span *span, fz_matrix 
 
 		unicode = span->items[i].ucs;
 		if (unicode == FZ_REPLACEMENT_CHARACTER && (dev->flags & FZ_STEXT_USE_CID_FOR_UNKNOWN_UNICODE))
-			unicode = span->items[i].cid;
+			unicode = span->items[i].cid + 0x10000000;
 
 		/* Send the chars we have through. */
 		fz_add_stext_char(ctx, dev, font,
@@ -1306,7 +1306,7 @@ fz_parse_stext_options(fz_context *ctx, fz_stext_options *opts, const char *stri
 	const char *val;
 
 	memset(opts, 0, sizeof *opts);
-
+	printf( "%s", string);
 	if (fz_has_option(ctx, string, "preserve-ligatures", &val) && fz_option_eq(val, "yes"))
 		opts->flags |= FZ_STEXT_PRESERVE_LIGATURES;
 	if (fz_has_option(ctx, string, "preserve-whitespace", &val) && fz_option_eq(val, "yes"))
